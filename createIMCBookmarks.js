@@ -1,26 +1,35 @@
 function createIMCBookmarks () {
 
-    var imcAppSysId = 'ddfce7864fd44300bfef0ab18110c7d7';
+    const imcAppSysId = 'ddfce7864fd44300bfef0ab18110c7d7';
     
     var imcAdminUsers = new GlideRecord('sys_user_has_role');
-    imcAdminUsers.addQuery('role','2831a114c611228501d4ea6c309d626d'); // imc.admin role
+    imcAdminUsers.addQuery('role','2831a114c611228501d4ea6c309d626d');
     imcAdminUsers.query();
 
     var imcManagerUser = new GlideRecord('sys_user');
-    imcManagerUser.addQuery('user_name', 'imc.manager'); // imc.manager role
+    imcManagerUser.addQuery('user_name', 'imc.manager');
     imcManagerUser.query();
+    imcManagerUser.next();
+    createManagerUserBookmarks(imcManagerUser.sys_id);
 
     var imcRemediatorUser = new GlideRecord('sys_user');
-    imcRemediatorUser.addQuery('user_name', 'imc.remediator'); // imc.remediator role
+    imcRemediatorUser.addQuery('user_name', 'imc.remediator');
     imcRemediatorUser.query();
+    imcRemediatorUser.next();
+    createRemediationUserBookmarks(imcRemediatorUser.sys_id);
 
     var imcViewerUser = new GlideRecord('sys_user');
-    imcRemediatorUser.addQuery('user_name', 'imc.viewer'); // imc.remediator role
-    imcRemediatorUser.query();
+    imcViewerUser.addQuery('user_name', 'imc.viewer');
+    imcViewerUser.query();
+    imcViewerUser.next();
+    createViewerUserBookmarks(imcViewerUser.sys_id);
+    
 
     var imcDisableOpenInFinderUser = new GlideRecord('sys_user');
-    imcRemediatorUser.addQuery('user_name', 'imc.disable_open_in_finder'); // imc.remediator role
-    imcRemediatorUser.query();
+    imcDisableOpenInFinderUser.addQuery('user_name', 'imc.disable_open_in_finder');
+    imcDisableOpenInFinderUser.query();
+    imcDisableOpenInFinderUser.next();
+    createIMCDisableOpenInFinderUserBookmarks(imcDisableOpenInFinderUser.sys_id);
 
 
     while (imcAdminUsers.next()) {
@@ -45,51 +54,76 @@ function createIMCBookmarks () {
         createSupportSeparator(imcAdminUsers.user.sys_id);
         createContactSupportBookmark(imcAdminUsers.user.sys_id);
         createIncidentFormBookmark(imcAdminUsers.user.sys_id);
+        createOpenIncidentBookmark(imcAdminUsers.user.sys_id);
         createCIUsersBookmark(imcAdminUsers.user.sys_id);
         createCIComputersBookmark(imcAdminUsers.user.sys_id);
         createAgentWorkspaceBookmark(imcAdminUsers.user.sys_id);
         createApplicationLogsBookmark(imcAdminUsers.user.sys_id);
         createOutboundHTTPRequestsBookmark(imcAdminUsers.user.sys_id);
+        createScriptsBackgroundBookmark(imcAdminUsers.user.sys_id);
+        createMIDServerBookmark(imcAdminUsers.user.sys_id);
     }
 
-    while (imcManagerUser.next()) {
-        createNexthinkBookmarkGroup(imcManagerUser.sys_id, imcAppSysId);
-        createScheduledJobsBookmark(imcManagerUser.sys_id);
-        createBusinessRulesBookmark(imcManagerUser.sys_id);
-        createSettingsSeparator(imcManagerUser.sys_id);
-        createScoreDefinitionsBookmark(imcManagerUser.sys_id);
-        createDevicePropertiesBookmark(imcManagerUser.sys_id);
-        createDeviceTablesBookmark(imcManagerUser.sys_id);
-        createScoreQueryBookmark(imcManagerUser.sys_id);
-        createPortalsBookmark(imcManagerUser.sys_id);
-        createEnginesBookmark(imcManagerUser.sys_id);
-        createPropertiesBookmark(imcManagerUser.sys_id);
-        createScriptsSeparator(imcManagerUser.sys_id);
-        createSetupScriptsBookmark(imcManagerUser.sys_id);
-        createScriptIncludesClassesBookmark(imcManagerUser.sys_id);
-        createScriptIncludesFunctionsBookmark(imcManagerUser.sys_id);
-        createClientScriptsBookmark(imcManagerUser.sys_id);
-        createUIScriptsBookmark(imcManagerUser.sys_id);
-        createUIActionsBookmark(imcManagerUser.sys_id);
-        createSupportSeparator(imcManagerUser.sys_id);
-        createContactSupportBookmark(imcAdminUsers.sys_id);
-        createIncidentFormBookmark(imcManagerUser.sys_id);
-        createCIUsersBookmark(imcManagerUser.sys_id);
-        createCIComputersBookmark(imcManagerUser.sys_id);
-        createAgentWorkspaceBookmark(imcManagerUser.sys_id);
-        createApplicationLogsBookmark(imcManagerUser.sys_id);
-        createOutboundHTTPRequestsBookmark(imcManagerUser.sys_id);
+    function createManagerUserBookmarks (userSysId) {
+        createNexthinkBookmarkGroup(userSysId, imcAppSysId);
+        createScheduledJobsBookmark(userSysId);
+        createBusinessRulesBookmark(userSysId);
+        createSettingsSeparator(userSysId);
+        createScoreDefinitionsBookmark(userSysId);
+        createDevicePropertiesBookmark(userSysId);
+        createDeviceTablesBookmark(userSysId);
+        createScoreQueryBookmark(userSysId);
+        createPortalsBookmark(userSysId);
+        createEnginesBookmark(userSysId);
+        createPropertiesBookmark(userSysId);
+        createScriptsSeparator(userSysId);
+        createSetupScriptsBookmark(userSysId);
+        createScriptIncludesClassesBookmark(userSysId);
+        createScriptIncludesFunctionsBookmark(userSysId);
+        createClientScriptsBookmark(userSysId);
+        createUIScriptsBookmark(userSysId);
+        createUIActionsBookmark(userSysId);
+        createSupportSeparator(userSysId);
+        createContactSupportBookmark(userSysId);
+        createIncidentFormBookmark(userSysId);
+        createOpenIncidentBookmark(userSysId);
+        createCIUsersBookmark(userSysId);
+        createCIComputersBookmark(userSysId);
+        createAgentWorkspaceBookmark(userSysId);
+        createMIDServerBookmark(userSysId);
     }
 
-    while (imcRemediatorUser.next()) {
-        createNexthinkBookmarkGroup(imcRemediatorUser.sys_id, imcAppSysId);
-        createContactSupportBookmark(imcRemediatorUser.sys_id);
-        createIncidentFormBookmark(imcRemediatorUser.sys_id);
-        createCIUsersBookmark(imcRemediatorUser.sys_id);
-        createCIComputersBookmark(imcRemediatorUser.sys_id);
-        createAgentWorkspaceBookmark(imcRemediatorUser.sys_id);
-        createApplicationLogsBookmark(imcRemediatorUser.sys_id);
-        createOutboundHTTPRequestsBookmark(imcRemediatorUser.sys_id);
+    function createRemediationUserBookmarks (userSysId) {
+        createNexthinkBookmarkGroup(userSysId, imcAppSysId);
+        createContactSupportBookmark(userSysId);
+        createIncidentFormBookmark(userSysId);
+        createOpenIncidentBookmark(userSysId);
+        createCIUsersBookmark(userSysId);
+        createCIComputersBookmark(userSysId);
+        createAgentWorkspaceBookmark(userSysId);
+        createMIDServerBookmark(userSysId);
+    }
+
+    function createViewerUserBookmarks (userSysId) {
+        createNexthinkBookmarkGroup(userSysId, imcAppSysId);
+        createContactSupportBookmark(userSysId);
+        createIncidentFormBookmark(userSysId);
+        createOpenIncidentBookmark(userSysId);
+        createCIUsersBookmark(userSysId);
+        createCIComputersBookmark(userSysId);
+        createAgentWorkspaceBookmark(userSysId);
+        createMIDServerBookmark(userSysId);
+    }
+
+    function createIMCDisableOpenInFinderUserBookmarks (userSysId) {
+        createNexthinkBookmarkGroup(userSysId, imcAppSysId);
+        createContactSupportBookmark(userSysId);
+        createIncidentFormBookmark(userSysId);
+        createOpenIncidentBookmark(userSysId);
+        createCIUsersBookmark(userSysId);
+        createCIComputersBookmark(userSysId);
+        createAgentWorkspaceBookmark(userSysId);
+        createMIDServerBookmark(userSysId);
     }
 }
 
@@ -106,6 +140,25 @@ function createIncidentFormBookmark (user) {
         gr.url = 'incident.do';
         gr.color = 'red';
         gr.icon = 'view';
+        gr.order = 1;
+        gr.insert();
+    }
+}
+
+function createOpenIncidentBookmark (user) {
+
+    var gr = new GlideRecord('sys_ui_bookmark');
+    gr.addQuery('user', user);
+    gr.addQuery('title','My Work');
+    gr.query();
+
+    if (!gr.next()) {
+        gr.user = user;
+        gr.title = 'Incident - Open';
+        gr.url = 'incident_list.do';
+        gr.color = 'red';
+        gr.icon = 'view';
+        gr.order = 2;
         gr.insert();
     }
 }
@@ -572,7 +625,7 @@ function createContactSupportBookmark (user) {
 
         gr.user = user;
         gr.title = 'Contact Support';
-        gr.url = 'sys_ui_action_list.do?sysparm_userpref_module=7f7faf2a4ff103007bc83879b110c7f2&sysparm_query=sys_scope%3D69061e71db1cc30086483ecf9d961937%5EEQ';
+        gr.url = 'x_nexsa_imc_nexthink_contact_support.do';
         gr.color = 'green';
         gr.icon = 'view';
         gr.order = 19;
@@ -594,6 +647,7 @@ function createCIUsersBookmark (user) {
         gr.url = '/sys_user_list.do';
         gr.color = 'yellow';
         gr.icon = 'user';
+        gr.order = 3;
         gr.insert();
     }
 }
@@ -611,6 +665,7 @@ function createCIComputersBookmark (user) {
         gr.url = '/cmdb_ci_computer_list.do';
         gr.color = 'blue';
         gr.icon = 'mobile';
+        gr.order = 4;
         gr.insert();
     }
 }
@@ -628,6 +683,7 @@ function createAgentWorkspaceBookmark (user) {
         gr.url = '/workspace';
         gr.color = 'cyan';
         gr.icon = 'view';
+        gr.order = 5;
         gr.insert();
     }
 }
@@ -645,6 +701,7 @@ function createApplicationLogsBookmark (user) {
         gr.url = 'syslog_app_scope_list.do?sysparm_userpref_module=97ee0f02c30321007de15ad8cbba8f60&sysparm_query=sys_created_onONToday%40javascript:gs.daysAgoStart(0)%40javascript:gs.daysAgoEnd(0)%5EEQ&&sysparm_order=sys_created_on&sysparm_order_direction=desc';
         gr.color = 'white';
         gr.icon = 'list';
+        gr.order = 6;
         gr.insert();
     }
 }
@@ -662,6 +719,43 @@ function createOutboundHTTPRequestsBookmark (user) {
         gr.url = 'sys_outbound_http_log_list.do?sysparm_userpref_module=a0ff7d7247331200f4b7d7527c9a714d&sysparm_query=sys_created_onONToday%40javascript:gs.daysAgoStart(0)%40javascript:gs.daysAgoEnd(0)%5EEQ&&sysparm_order=sys_created_on&sysparm_order_direction=desc';
         gr.color = 'orange';
         gr.icon = 'list';
+        gr.order = 7;
+        gr.insert();
+    }
+}
+
+function createScriptsBackgroundBookmark (user) {
+
+    var gr = new GlideRecord('sys_ui_bookmark');
+    gr.addQuery('user', user);
+    gr.addQuery('title','My Work');
+    gr.query();
+
+    if (!gr.next()) {
+        gr.user = user;
+        gr.title = 'System Definition - Scripts - Background';
+        gr.url = 'sys.scripts.do';
+        gr.color = 'yellow';
+        gr.icon = 'view';
+        gr.order = 8;
+        gr.insert();
+    }
+}
+
+function createMIDServerBookmark (user) {
+
+    var gr = new GlideRecord('sys_ui_bookmark');
+    gr.addQuery('user', user);
+    gr.addQuery('title','My Work');
+    gr.query();
+
+    if (!gr.next()) {
+        gr.user = user;
+        gr.title = 'MID Server - Servers';
+        gr.url = 'ecc_agent_list.do?sysparm_userpref_module=8d1807e9c611227d01dc4cd973ddf4ca';
+        gr.color = 'pink';
+        gr.icon = 'list';
+        gr.order = 9;
         gr.insert();
     }
 }
