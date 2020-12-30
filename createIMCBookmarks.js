@@ -33,7 +33,7 @@ function createIMCBookmarks () {
 
 
     while (imcAdminUsers.next()) {
-        createNexthinkCMDBBookmarkGroup(imcAdminUsers.user.sys_id, imcAppSysId);
+        createNexthinkIMCBookmarkGroup(imcAdminUsers.user.sys_id, imcAppSysId);
         createScheduledJobsBookmark(imcAdminUsers.user.sys_id);
         createBusinessRulesBookmark(imcAdminUsers.user.sys_id);
         createSettingsSeparator(imcAdminUsers.user.sys_id);
@@ -55,8 +55,14 @@ function createIMCBookmarks () {
         createContactSupportBookmark(imcAdminUsers.user.sys_id);
         createIncidentFormBookmark(imcAdminUsers.user.sys_id);
         createOpenIncidentBookmark(imcAdminUsers.user.sys_id);
+        
+        createCIBookmarkGroup(imcAdminUsers.user.sys_id, imcAppSysId);
         createCIUsersBookmark(imcAdminUsers.user.sys_id);
+        createCIServicesBookmark(imcAdminUsers.user.sys_id);
         createCIComputersBookmark(imcAdminUsers.user.sys_id);
+        createCISoftwarePackagesBookmark(imcAdminUsers.user.sys_id);
+        createCIWindowsServerBookmark(imcAdminUsers.user.sys_id);
+
         createAgentWorkspaceBookmark(imcAdminUsers.user.sys_id);
         createApplicationLogsBookmark(imcAdminUsers.user.sys_id);
         createOutboundHTTPRequestsBookmark(imcAdminUsers.user.sys_id);
@@ -65,7 +71,7 @@ function createIMCBookmarks () {
     }
 
     function createManagerUserBookmarks (userSysId) {
-        createNexthinkCMDBBookmarkGroup(userSysId, imcAppSysId);
+        createNexthinkIMCBookmarkGroup(userSysId, imcAppSysId);
         createScheduledJobsBookmark(userSysId);
         createBusinessRulesBookmark(userSysId);
         createSettingsSeparator(userSysId);
@@ -87,41 +93,65 @@ function createIMCBookmarks () {
         createContactSupportBookmark(userSysId);
         createIncidentFormBookmark(userSysId);
         createOpenIncidentBookmark(userSysId);
+        
+        createCIBookmarkGroup(userSysId, imcAppSysId);
         createCIUsersBookmark(userSysId);
+        createCIServicesBookmark(userSysId);
         createCIComputersBookmark(userSysId);
+        createCISoftwarePackagesBookmark(userSysId);
+        createCIWindowsServerBookmark(userSysId);
+
         createAgentWorkspaceBookmark(userSysId);
         createMIDServerBookmark(userSysId);
     }
 
     function createRemediationUserBookmarks (userSysId) {
-        createNexthinkCMDBBookmarkGroup(userSysId, imcAppSysId);
+        createNexthinkIMCBookmarkGroup(userSysId, imcAppSysId);
         createContactSupportBookmark(userSysId);
         createIncidentFormBookmark(userSysId);
         createOpenIncidentBookmark(userSysId);
+        
+        createCIBookmarkGroup(userSysId, imcAppSysId);
         createCIUsersBookmark(userSysId);
+        createCIServicesBookmark(userSysId);
         createCIComputersBookmark(userSysId);
+        createCISoftwarePackagesBookmark(userSysId);
+        createCIWindowsServerBookmark(userSysId);
+
         createAgentWorkspaceBookmark(userSysId);
         createMIDServerBookmark(userSysId);
     }
 
     function createViewerUserBookmarks (userSysId) {
-        createNexthinkCMDBBookmarkGroup(userSysId, imcAppSysId);
+        createNexthinkIMCBookmarkGroup(userSysId, imcAppSysId);
         createContactSupportBookmark(userSysId);
         createIncidentFormBookmark(userSysId);
         createOpenIncidentBookmark(userSysId);
+        
+        createCIBookmarkGroup(userSysId, imcAppSysId);
         createCIUsersBookmark(userSysId);
+        createCIServicesBookmark(userSysId);
         createCIComputersBookmark(userSysId);
+        createCISoftwarePackagesBookmark(userSysId);
+        createCIWindowsServerBookmark(userSysId);
+
         createAgentWorkspaceBookmark(userSysId);
         createMIDServerBookmark(userSysId);
     }
 
     function createIMCDisableOpenInFinderUserBookmarks (userSysId) {
-        createNexthinkCMDBBookmarkGroup(userSysId, imcAppSysId);
+        createNexthinkIMCBookmarkGroup(userSysId, imcAppSysId);
         createContactSupportBookmark(userSysId);
         createIncidentFormBookmark(userSysId);
         createOpenIncidentBookmark(userSysId);
+        
+        createCIBookmarkGroup(userSysId, imcAppSysId);
         createCIUsersBookmark(userSysId);
+        createCIServicesBookmark(userSysId);
         createCIComputersBookmark(userSysId);
+        createCISoftwarePackagesBookmark(userSysId);
+        createCIWindowsServerBookmark(userSysId);
+
         createAgentWorkspaceBookmark(userSysId);
         createMIDServerBookmark(userSysId);
     }
@@ -131,7 +161,7 @@ function createIncidentFormBookmark (user) {
 
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","Incident - Create New");
     gr.query();
 
     if (!gr.next()) {
@@ -149,7 +179,7 @@ function createOpenIncidentBookmark (user) {
 
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","Incident - Open");
     gr.query();
 
     if (!gr.next()) {
@@ -163,9 +193,26 @@ function createOpenIncidentBookmark (user) {
     }
 }
 
-function createNexthinkCMDBBookmarkGroup (user, app) {
+function createCIBookmarkGroup (user, app) {
     var gr = new GlideRecord("sys_ui_bookmark_group");
     gr.addQuery("user", user);
+    gr.addQuery("title", "Configuration Items");
+    gr.query();
+
+    if (!gr.next()) {
+        gr.color = "blue";
+        gr.title = "Configuration Items";
+        gr.user = user;
+        gr.application = app;
+        gr.order = 3;
+        gr.insert();
+    }
+}
+
+function createNexthinkIMCBookmarkGroup (user, app) {
+    var gr = new GlideRecord("sys_ui_bookmark_group");
+    gr.addQuery("user", user);
+    gr.addQuery("title", "Nexthink Incident Management Connector");
     gr.query();
 
     if (!gr.next()) {
@@ -181,13 +228,15 @@ function createNexthinkCMDBBookmarkGroup (user, app) {
 function createScheduledJobsBookmark (user) {
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","Scheduled Jobs");
+    gr.addQuery("group", "Nexthink Incident Management Connector");
     gr.query();
 
     if (!gr.next()) {
 
         var nexthinkIMCBookmarkGroups = new GlideRecord("sys_ui_bookmark_group");
         nexthinkIMCBookmarkGroups.addQuery("user", user);
+        nexthinkIMCBookmarkGroups.addQuery("title", "Nexthink Incident Management Connector");
         nexthinkIMCBookmarkGroups.query();
         nexthinkIMCBookmarkGroups.next();
 
@@ -205,13 +254,15 @@ function createScheduledJobsBookmark (user) {
 function createBusinessRulesBookmark (user) {
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","Business Rules");
+    gr.addQuery("group", "Nexthink Incident Management Connector");
     gr.query();
 
     if (!gr.next()) {
 
         var nexthinkIMCBookmarkGroups = new GlideRecord("sys_ui_bookmark_group");
         nexthinkIMCBookmarkGroups.addQuery("user", user);
+        nexthinkIMCBookmarkGroups.addQuery("title", "Nexthink Incident Management Connector");
         nexthinkIMCBookmarkGroups.query();
         nexthinkIMCBookmarkGroups.next();
 
@@ -229,13 +280,15 @@ function createBusinessRulesBookmark (user) {
 function createSettingsSeparator (user) {
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","Settings");
+    gr.addQuery("group", "Nexthink Incident Management Connector");
     gr.query();
 
     if (!gr.next()) {
 
         var nexthinkIMCBookmarkGroups = new GlideRecord("sys_ui_bookmark_group");
         nexthinkIMCBookmarkGroups.addQuery("user", user);
+        nexthinkIMCBookmarkGroups.addQuery("title", "Nexthink Incident Management Connector");
         nexthinkIMCBookmarkGroups.query();
         nexthinkIMCBookmarkGroups.next();
 
@@ -253,13 +306,15 @@ function createSettingsSeparator (user) {
 function createScoreDefinitionsBookmark (user) {
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","Score Definitions");
+    gr.addQuery("group", "Nexthink Incident Management Connector");
     gr.query();
 
     if (!gr.next()) {
 
         var nexthinkIMCBookmarkGroups = new GlideRecord("sys_ui_bookmark_group");
         nexthinkIMCBookmarkGroups.addQuery("user", user);
+        nexthinkIMCBookmarkGroups.addQuery("title", "Nexthink Incident Management Connector");
         nexthinkIMCBookmarkGroups.query();
         nexthinkIMCBookmarkGroups.next();
 
@@ -277,13 +332,15 @@ function createScoreDefinitionsBookmark (user) {
 function createDevicePropertiesBookmark (user) {
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","Device Properties");
+    gr.addQuery("group", "Nexthink Incident Management Connector");
     gr.query();
 
     if (!gr.next()) {
 
         var nexthinkIMCBookmarkGroups = new GlideRecord("sys_ui_bookmark_group");
         nexthinkIMCBookmarkGroups.addQuery("user", user);
+        nexthinkIMCBookmarkGroups.addQuery("title", "Nexthink Incident Management Connector");
         nexthinkIMCBookmarkGroups.query();
         nexthinkIMCBookmarkGroups.next();
 
@@ -301,13 +358,15 @@ function createDevicePropertiesBookmark (user) {
 function createDeviceTablesBookmark (user) {
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","Device Tables");
+    gr.addQuery("group", "Nexthink Incident Management Connector");
     gr.query();
 
     if (!gr.next()) {
 
         var nexthinkIMCBookmarkGroups = new GlideRecord("sys_ui_bookmark_group");
         nexthinkIMCBookmarkGroups.addQuery("user", user);
+        nexthinkIMCBookmarkGroups.addQuery("title", "Nexthink Incident Management Connector");
         nexthinkIMCBookmarkGroups.query();
         nexthinkIMCBookmarkGroups.next();
 
@@ -325,13 +384,15 @@ function createDeviceTablesBookmark (user) {
 function createScoreQueryBookmark (user) {
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","Score Query");
+    gr.addQuery("group", "Nexthink Incident Management Connector");
     gr.query();
 
     if (!gr.next()) {
 
         var nexthinkIMCBookmarkGroups = new GlideRecord("sys_ui_bookmark_group");
         nexthinkIMCBookmarkGroups.addQuery("user", user);
+        nexthinkIMCBookmarkGroups.addQuery("title", "Nexthink Incident Management Connector");
         nexthinkIMCBookmarkGroups.query();
         nexthinkIMCBookmarkGroups.next();
 
@@ -349,13 +410,15 @@ function createScoreQueryBookmark (user) {
 function createPortalsBookmark (user) {
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","Portals");
+    gr.addQuery("group", "Nexthink Incident Management Connector");
     gr.query();
 
     if (!gr.next()) {
 
         var nexthinkIMCBookmarkGroups = new GlideRecord("sys_ui_bookmark_group");
         nexthinkIMCBookmarkGroups.addQuery("user", user);
+        nexthinkIMCBookmarkGroups.addQuery("title", "Nexthink Incident Management Connector");
         nexthinkIMCBookmarkGroups.query();
         nexthinkIMCBookmarkGroups.next();
 
@@ -373,13 +436,15 @@ function createPortalsBookmark (user) {
 function createEnginesBookmark (user) {
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","Engines");
+    gr.addQuery("group", "Nexthink Incident Management Connector");
     gr.query();
 
     if (!gr.next()) {
 
         var nexthinkIMCBookmarkGroups = new GlideRecord("sys_ui_bookmark_group");
         nexthinkIMCBookmarkGroups.addQuery("user", user);
+        nexthinkIMCBookmarkGroups.addQuery("title", "Nexthink Incident Management Connector");
         nexthinkIMCBookmarkGroups.query();
         nexthinkIMCBookmarkGroups.next();
 
@@ -397,13 +462,15 @@ function createEnginesBookmark (user) {
 function createPropertiesBookmark (user) {
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","Properties");
+    gr.addQuery("group", "Nexthink Incident Management Connector");
     gr.query();
 
     if (!gr.next()) {
 
         var nexthinkIMCBookmarkGroups = new GlideRecord("sys_ui_bookmark_group");
         nexthinkIMCBookmarkGroups.addQuery("user", user);
+        nexthinkIMCBookmarkGroups.addQuery("title", "Nexthink Incident Management Connector");
         nexthinkIMCBookmarkGroups.query();
         nexthinkIMCBookmarkGroups.next();
 
@@ -421,13 +488,15 @@ function createPropertiesBookmark (user) {
 function createScriptsSeparator (user) {
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","Scripts");
+    gr.addQuery("group", "Nexthink Incident Management Connector");
     gr.query();
 
     if (!gr.next()) {
 
         var nexthinkIMCBookmarkGroups = new GlideRecord("sys_ui_bookmark_group");
         nexthinkIMCBookmarkGroups.addQuery("user", user);
+        nexthinkIMCBookmarkGroups.addQuery("title", "Nexthink Incident Management Connector");
         nexthinkIMCBookmarkGroups.query();
         nexthinkIMCBookmarkGroups.next();
 
@@ -445,13 +514,15 @@ function createScriptsSeparator (user) {
 function createSetupScriptsBookmark (user) {
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","Setup Scripts");
+    gr.addQuery("group", "Nexthink Incident Management Connector");
     gr.query();
 
     if (!gr.next()) {
 
         var nexthinkIMCBookmarkGroups = new GlideRecord("sys_ui_bookmark_group");
         nexthinkIMCBookmarkGroups.addQuery("user", user);
+        nexthinkIMCBookmarkGroups.addQuery("title", "Nexthink Incident Management Connector");
         nexthinkIMCBookmarkGroups.query();
         nexthinkIMCBookmarkGroups.next();
 
@@ -469,13 +540,15 @@ function createSetupScriptsBookmark (user) {
 function createScriptIncludesClassesBookmark (user) {
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","Script Includes Classes");
+    gr.addQuery("group", "Nexthink Incident Management Connector");
     gr.query();
 
     if (!gr.next()) {
 
         var nexthinkIMCBookmarkGroups = new GlideRecord("sys_ui_bookmark_group");
         nexthinkIMCBookmarkGroups.addQuery("user", user);
+        nexthinkIMCBookmarkGroups.addQuery("title", "Nexthink Incident Management Connector");
         nexthinkIMCBookmarkGroups.query();
         nexthinkIMCBookmarkGroups.next();
 
@@ -493,13 +566,15 @@ function createScriptIncludesClassesBookmark (user) {
 function createScriptIncludesFunctionsBookmark (user) {
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","Script Includes Functions");
+    gr.addQuery("group", "Nexthink Incident Management Connector");
     gr.query();
 
     if (!gr.next()) {
 
         var nexthinkIMCBookmarkGroups = new GlideRecord("sys_ui_bookmark_group");
         nexthinkIMCBookmarkGroups.addQuery("user", user);
+        nexthinkIMCBookmarkGroups.addQuery("title", "Nexthink Incident Management Connector");
         nexthinkIMCBookmarkGroups.query();
         nexthinkIMCBookmarkGroups.next();
 
@@ -517,13 +592,15 @@ function createScriptIncludesFunctionsBookmark (user) {
 function createClientScriptsBookmark (user) {
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","Client Scripts");
+    gr.addQuery("group", "Nexthink Incident Management Connector");
     gr.query();
 
     if (!gr.next()) {
 
         var nexthinkIMCBookmarkGroups = new GlideRecord("sys_ui_bookmark_group");
         nexthinkIMCBookmarkGroups.addQuery("user", user);
+        nexthinkIMCBookmarkGroups.addQuery("title", "Nexthink Incident Management Connector");
         nexthinkIMCBookmarkGroups.query();
         nexthinkIMCBookmarkGroups.next();
 
@@ -541,13 +618,15 @@ function createClientScriptsBookmark (user) {
 function createUIScriptsBookmark (user) {
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","UI Scripts");
+    gr.addQuery("group", "Nexthink Incident Management Connector");
     gr.query();
 
     if (!gr.next()) {
 
         var nexthinkIMCBookmarkGroups = new GlideRecord("sys_ui_bookmark_group");
         nexthinkIMCBookmarkGroups.addQuery("user", user);
+        nexthinkIMCBookmarkGroups.addQuery("title", "Nexthink Incident Management Connector");
         nexthinkIMCBookmarkGroups.query();
         nexthinkIMCBookmarkGroups.next();
 
@@ -565,13 +644,15 @@ function createUIScriptsBookmark (user) {
 function createUIActionsBookmark (user) {
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","UI Actions");
+    gr.addQuery("group", "Nexthink Incident Management Connector");
     gr.query();
 
     if (!gr.next()) {
 
         var nexthinkIMCBookmarkGroups = new GlideRecord("sys_ui_bookmark_group");
         nexthinkIMCBookmarkGroups.addQuery("user", user);
+        nexthinkIMCBookmarkGroups.addQuery("title", "Nexthink Incident Management Connector");
         nexthinkIMCBookmarkGroups.query();
         nexthinkIMCBookmarkGroups.next();
 
@@ -589,13 +670,15 @@ function createUIActionsBookmark (user) {
 function createSupportSeparator (user) {
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","Support");
+    gr.addQuery("group", "Nexthink Incident Management Connector");
     gr.query();
 
     if (!gr.next()) {
 
         var nexthinkIMCBookmarkGroups = new GlideRecord("sys_ui_bookmark_group");
         nexthinkIMCBookmarkGroups.addQuery("user", user);
+        nexthinkIMCBookmarkGroups.addQuery("title", "Nexthink Incident Management Connector");
         nexthinkIMCBookmarkGroups.query();
         nexthinkIMCBookmarkGroups.next();
 
@@ -613,13 +696,15 @@ function createSupportSeparator (user) {
 function createContactSupportBookmark (user) {
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","Contact Support");
+    gr.addQuery("group", "Nexthink Incident Management Connector");
     gr.query();
 
     if (!gr.next()) {
 
         var nexthinkIMCBookmarkGroups = new GlideRecord("sys_ui_bookmark_group");
         nexthinkIMCBookmarkGroups.addQuery("user", user);
+        nexthinkIMCBookmarkGroups.addQuery("title", "Nexthink Incident Management Connector");
         nexthinkIMCBookmarkGroups.query();
         nexthinkIMCBookmarkGroups.next();
 
@@ -638,16 +723,50 @@ function createCIUsersBookmark (user) {
 
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","Users");
     gr.query();
 
     if (!gr.next()) {
+
+        var nexthinkCIBookmarkGroups = new GlideRecord("sys_ui_bookmark_group");
+        nexthinkCIBookmarkGroups.addQuery("user", user);
+        nexthinkCIBookmarkGroups.addQuery("title", "Configuration Items");
+        nexthinkCIBookmarkGroups.query();
+        nexthinkCIBookmarkGroups.next();
+
         gr.user = user;
         gr.title = "Users";
         gr.url = "/sys_user_list.do";
         gr.color = "yellow";
         gr.icon = "user";
-        gr.order = 3;
+        gr.group = nexthinkCIBookmarkGroups.sys_id;
+        gr.order = 1;
+        gr.insert();
+    }
+}
+
+function createCIServicesBookmark (user) {
+
+    var gr = new GlideRecord("sys_ui_bookmark");
+    gr.addQuery("user", user);
+    gr.addQuery("title","Services");
+    gr.query();
+
+    if (!gr.next()) {
+
+        var nexthinkCIBookmarkGroups = new GlideRecord("sys_ui_bookmark_group");
+        nexthinkCIBookmarkGroups.addQuery("user", user);
+        nexthinkCIBookmarkGroups.addQuery("title", "Configuration Items");
+        nexthinkCIBookmarkGroups.query();
+        nexthinkCIBookmarkGroups.next();
+
+        gr.user = user;
+        gr.title = "Services";
+        gr.url = "/cmdb_ci_service_list.do";
+        gr.color = "cyan";
+        gr.icon = "view";
+        gr.group = nexthinkCIBookmarkGroups.sys_id;
+        gr.order = 2;
         gr.insert();
     }
 }
@@ -656,16 +775,76 @@ function createCIComputersBookmark (user) {
 
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","Computers");
     gr.query();
 
     if (!gr.next()) {
+
+        var nexthinkCIBookmarkGroups = new GlideRecord("sys_ui_bookmark_group");
+        nexthinkCIBookmarkGroups.addQuery("user", user);
+        nexthinkCIBookmarkGroups.addQuery("title", "Configuration Items");
+        nexthinkCIBookmarkGroups.query();
+        nexthinkCIBookmarkGroups.next();
+
         gr.user = user;
         gr.title = "Computers";
         gr.url = "/cmdb_ci_computer_list.do";
         gr.color = "blue";
         gr.icon = "mobile";
+        gr.group = nexthinkCIBookmarkGroups.sys_id;
+        gr.order = 3;
+        gr.insert();
+    }
+}
+
+function createCISoftwarePackagesBookmark (user) {
+
+    var gr = new GlideRecord("sys_ui_bookmark");
+    gr.addQuery("user", user);
+    gr.addQuery("title","Software Packages");
+    gr.query();
+
+    if (!gr.next()) {
+
+        var nexthinkCIBookmarkGroups = new GlideRecord("sys_ui_bookmark_group");
+        nexthinkCIBookmarkGroups.addQuery("user", user);
+        nexthinkCIBookmarkGroups.addQuery("title", "Configuration Items");
+        nexthinkCIBookmarkGroups.query();
+        nexthinkCIBookmarkGroups.next();
+
+        gr.user = user;
+        gr.title = "Software Packages";
+        gr.url = "/cmdb_ci_spkg_list.do";
+        gr.color = "pink";
+        gr.icon = "book";
+        gr.group = nexthinkCIBookmarkGroups.sys_id;
         gr.order = 4;
+        gr.insert();
+    }
+}
+
+function createCIWindowsServerBookmark (user) {
+
+    var gr = new GlideRecord("sys_ui_bookmark");
+    gr.addQuery("user", user);
+    gr.addQuery("title","Windows Server");
+    gr.query();
+
+    if (!gr.next()) {
+
+        var nexthinkCIBookmarkGroups = new GlideRecord("sys_ui_bookmark_group");
+        nexthinkCIBookmarkGroups.addQuery("user", user);
+        nexthinkCIBookmarkGroups.addQuery("title", "Configuration Items");
+        nexthinkCIBookmarkGroups.query();
+        nexthinkCIBookmarkGroups.next();
+
+        gr.user = user;
+        gr.title = "Windows Server";
+        gr.url = "/cmdb_ci_win_server_list.do";
+        gr.color = "aquamarine";
+        gr.icon = "cards";
+        gr.group = nexthinkCIBookmarkGroups.sys_id;
+        gr.order = 5;
         gr.insert();
     }
 }
@@ -674,7 +853,7 @@ function createAgentWorkspaceBookmark (user) {
 
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","Agent Workspace - Agent Workspace Home ➚");
     gr.query();
 
     if (!gr.next()) {
@@ -692,7 +871,7 @@ function createApplicationLogsBookmark (user) {
 
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","System Logs - Application Logs");
     gr.query();
 
     if (!gr.next()) {
@@ -710,7 +889,7 @@ function createOutboundHTTPRequestsBookmark (user) {
 
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","System Logs - Outbound HTTP Requests");
     gr.query();
 
     if (!gr.next()) {
@@ -728,7 +907,7 @@ function createScriptsBackgroundBookmark (user) {
 
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","System Definition - Scripts - Background");
     gr.query();
 
     if (!gr.next()) {
@@ -746,7 +925,7 @@ function createMIDServerBookmark (user) {
 
     var gr = new GlideRecord("sys_ui_bookmark");
     gr.addQuery("user", user);
-    gr.addQuery("title","My Work");
+    gr.addQuery("title","MID Server - Servers");
     gr.query();
 
     if (!gr.next()) {
